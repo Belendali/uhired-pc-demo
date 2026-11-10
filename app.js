@@ -158,7 +158,7 @@ function tray(history) { // history: false | '4 sessions' | '1 session'
   return `<div class="tray">
     <span class="pchip ${S.panel === 'practice' ? 'on' : ''}" data-act="practice">${ic('chat', 16)}<span class="lbg">Interview practice</span><span class="lc muted meta hide-narrow">12 questions</span>${ic('chevron-right', 14, '', 'chev')}</span>
     <span class="pchip ${S.panel === 'roles' ? 'on' : ''}" data-act="roles">${ic('briefcase', 16)}<span class="lbg">Open roles</span><span class="lc muted meta hide-narrow">18 matches</span>${ic('chevron-right', 14)}</span>
-    ${history ? `<span class="pchip ${S.panel === 'history' ? 'on' : ''}" data-act="history">${ic('history', 16)}<span class="lbg">Mock history</span><span class="lc muted meta">${history}</span>${S.seenHistory ? '' : '<i class="newdot"></i>'}${ic('chevron-right', 14)}</span>` : ''}
+    ${history ? `<span class="pchip ${S.panel === 'history' ? 'on' : ''}" data-act="history">${ic('history', 16)}<span class="lbg">Mock history</span><span class="lc muted meta hide-narrow">${history}</span>${S.seenHistory ? '' : '<i class="newdot"></i>'}${ic('chevron-right', 14)}</span>` : ''}
   </div>`;
 }
 /* 05 / 05b: the chat collapses to two cards while a side panel is open */
@@ -259,14 +259,13 @@ function historyPanel() {
         <div class="bars">${[['Nov 3', 6.1], ['Nov 7', 6.8], ['Today', 7.6]].map((b, i) => `<div class="b"><span class="lbg ${i === 2 ? 'pri' : 'muted'}">${b[1].toFixed(1)}</span><i style="height:${Math.round(b[1] * 12)}px;background:var(--${i === 2 ? 'primary' : 'primary-light'})"></i><span class="lc ${i === 2 ? '' : 'muted'}">${b[0]}</span></div>`).join('')}</div></div>
         <div style="height:1px;background:var(--border)"></div>
         <div class="row" style="gap:12px">${[['target', 'Strongest', 'Relevance to the role · 85', 'success'], ['lightbulb', 'Work on next', 'Confidence · 64', 'warning']].map(x => `<div class="row grow" style="gap:10px"><div class="ico-tile" style="width:32px;height:32px;border-radius:10px;background:var(--${x[3]}-soft);color:var(--${x[3]})">${ic(x[0], 16)}</div><div class="col"><span class="lc muted">${x[1]}</span><span class="ln">${x[2]}</span></div></div>`).join('')}</div></div>
-      <div class="row" style="padding-top:4px"><span class="h4 grow">Sessions</span><span class="lc muted">Newest first</span></div>
+      <div class="row" style="padding-top:4px"><span class="h4 grow">Sessions</span></div>
       <div class="col" style="gap:10px">${sess.map(x => `<div class="sess ${x.tag ? 'latest' : ''}" ${x.act ? `data-act="${x.act}"` : ''}>
         <div class="sbadge" style="${x.s ? `background:var(--${x.tone}-soft);color:var(--${x.tone})` : 'background:var(--bg-page);border:1px solid var(--border);color:var(--text-muted)'}">${x.s ? `<span class="h3">${x.s}</span>` : ic('pause', 18)}</div>
         <div class="col grow" style="gap:3px"><div class="row" style="gap:8px"><span class="h4">${x.title}</span>${x.tag ? `<span class="stag lt" style="background:var(--primary-soft);color:var(--primary)">${x.tag}</span>` : ''}${x.s ? '' : '<span class="stag lt" style="background:var(--warning-soft);color:var(--warning)">Unfinished</span>'}</div>
           <span class="lc muted">${x.meta}</span><span class="row bs ${x.s ? 'body' : 'muted'}" style="gap:6px;padding-top:3px">${x.s ? ic('lightbulb', 13) : ''}${x.focus}</span></div>
         ${x.s ? ic('chevron-right', 16, 'color:var(--text-muted)') : btn('Resume', 'sec sm', 'resume')}</div>`).join('')}</div>
     </div>
-    <div class="dark-foot"><div class="col grow" style="gap:2px"><span class="h4 white">Go again with fresh questions</span><span class="bs" style="color:var(--on-dark-muted)">Every mock builds new questions from this chat.</span></div>${btn('Start mock', 'light', 'mock')}</div>
   </section>`;
 }
 
