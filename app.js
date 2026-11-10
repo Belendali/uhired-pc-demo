@@ -166,6 +166,14 @@ const collapsedCards = () => `${botMsg("Done! Your 4 years in customer support s
     <div class="ccard ${S.panel === 'roles' ? 'on' : ''}" data-act="roles"><div class="ib">${ic('briefcase', 18)}</div><div class="col grow" style="gap:2px"><span class="h4">Open roles for you</span><span class="bs muted">18 matches in Metro Manila</span></div><span class="lbg ${S.panel === 'roles' ? 'pri' : 'muted'}">${S.panel === 'roles' ? 'Open' : 'View'}</span></div></div>`;
 
 /* ---------------- chat screens ---------------- */
+const resultCards = () => `<div class="indent row" style="gap:16px;align-items:stretch">
+        <div class="rcard2"><div class="rhead"><div class="ib">${ic('chat', 20)}</div><div class="col"><span class="h3">Interview practice</span><span class="bs muted">12 questions · answers written in your voice</span></div></div>
+          <div>${MOCK_QS.slice(0, 3).map((q, i) => `<div class="qrow click" data-act="practice"><div class="qnum lbg">Q${i + 1}</div><div class="col grow" style="gap:4px"><span class="h4">${q[0]}</span><span class="bs muted">${['Behavioral', 'Situational', 'Technical'][i]}</span></div>${ic('chevron-right', 18, 'color:var(--text-muted)')}</div>`).join('')}</div>
+          <div style="flex:1"></div><div>${btn('Open practice set', 'primary', 'practice')}</div></div>
+        <div class="rcard2"><div class="rhead"><div class="ib">${ic('briefcase', 20)}</div><div class="col"><span class="h3">Open roles for you</span><span class="bs muted">18 matches in Metro Manila · updated today</span></div></div>
+          <div>${[['A', 'var(--ink)', 'Customer Service Representative', 'Atlas CX · Taguig · ₱26–32k/mo', 94], ['N', 'var(--primary)', 'Technical Support Associate', 'Northwind Connect · Pasig · ₱28–35k/mo', 89], ['B', 'var(--primary-light)', 'Chat Support Specialist', 'BrightCall · Remote · ₱24–30k/mo', 86]].map(r => `<div class="qrow" style="align-items:center"><div class="rlogo li" style="background:${r[1]}">${r[0]}</div><div class="col grow" style="gap:2px"><span class="h4">${r[2]}</span><span class="bs muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r[3]}</span></div><span class="match lbg">${r[4]}% match</span></div>`).join('')}</div>
+          <div style="flex:1"></div><div>${btn('See all 18 roles', 'sec', 'roles')}</div></div>
+      </div>`;
 function chatBody() {
   if (S.bot === 'va') {
     return `<div class="conv">${botMsg("Your VA coach is ready. I'll reuse your resume from BPO coach and focus on Virtual Assistant roles — remote work, client communication and managing your own schedule.")}
@@ -188,7 +196,7 @@ function chatBody() {
   }
   if (S.stage === 'unfinished') { // 04c — ended early or after the 30s preview
     const m = S.mock;
-    return `<div class="conv">${S.panel ? '' : userUpload()}${botMsg('Done! Your 4 years in customer support stand out. I built a 12-question practice set and found 18 open roles for you. They’re pinned above the message box, so you can open them anytime.')}
+    return `<div class="conv">${S.panel ? '' : userUpload() + botMsg("Done! Your 4 years in customer support stand out — especially your de-escalation and QA scores. Here's what I built for you. Both are also pinned above the message box.") + resultCards()}
       ${botMsg('You ended your mock interview early, so I saved it as Unfinished. Pick up right where you stopped whenever you’re ready. Results and advice come after all 5 questions.')}
       <div class="indent"><div class="ufcard"><div class="ib">${ic('history', 20)}</div>
         <div class="col grow" style="gap:2px"><div class="row" style="gap:8px"><span class="h4">Mock interview · Atlas CX</span><span class="stag lbg" style="background:var(--warning-soft);color:var(--warning)">Unfinished</span></div>
@@ -198,17 +206,10 @@ function chatBody() {
   }
   if (S.stage === 'inline') {
     return `<div class="conv">${userUpload()}${botMsg("Done! Your 4 years in customer support stand out — especially your de-escalation and QA scores. Here's what I built for you:")}
-      <div class="indent row" style="gap:16px;align-items:stretch">
-        <div class="rcard2"><div class="rhead"><div class="ib">${ic('chat', 20)}</div><div class="col"><span class="h3">Interview practice</span><span class="bs muted">12 questions · answers written in your voice</span></div></div>
-          <div>${MOCK_QS.slice(0, 3).map((q, i) => `<div class="qrow"><div class="qnum lbg">Q${i + 1}</div><div class="col grow" style="gap:4px"><span class="h4">${q[0]}</span><span class="bs muted">${['Behavioral', 'Situational', 'Technical'][i]}</span></div>${ic('chevron-right', 18, 'color:var(--text-muted)')}</div>`).join('')}</div>
-          <div style="flex:1"></div><div>${btn('Open practice set', 'primary', 'practice')}</div></div>
-        <div class="rcard2"><div class="rhead"><div class="ib">${ic('briefcase', 20)}</div><div class="col"><span class="h3">Open roles for you</span><span class="bs muted">18 matches in Metro Manila · updated today</span></div></div>
-          <div>${[['A', 'var(--ink)', 'Customer Service Representative', 'Atlas CX · Taguig · ₱26–32k/mo', 94], ['N', 'var(--primary)', 'Technical Support Associate', 'Northwind Connect · Pasig · ₱28–35k/mo', 89], ['B', 'var(--primary-light)', 'Chat Support Specialist', 'BrightCall · Remote · ₱24–30k/mo', 86]].map(r => `<div class="qrow" style="align-items:center"><div class="rlogo li" style="background:${r[1]}">${r[0]}</div><div class="col grow" style="gap:2px"><span class="h4">${r[2]}</span><span class="bs muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r[3]}</span></div><span class="match lbg">${r[4]}% match</span></div>`).join('')}</div>
-          <div style="flex:1"></div><div>${btn('See all 18 roles', 'sec', 'roles')}</div></div>
-      </div>
+      ${resultCards()}
       ${botMsg("Want sharper answers and better matches? Tell me a bit more about what you're aiming for — every detail makes your Q&A and role list more personal.")}${nextSteps()}</div>${composer()}`;
   }
-  const done = botMsg('Done! Your 4 years in customer support stand out. I built a 12-question practice set and found 18 open roles for you. They’re pinned above the message box, so you can open them anytime.');
+  const done = botMsg("Done! Your 4 years in customer support stand out — especially your de-escalation and QA scores. Here's what I built for you. Both are also pinned above the message box.") + resultCards();
   if (S.stage === 'results') {
     return `<div class="conv">${userUpload()}${done}${botMsg("Want sharper answers and better matches? Tell me a bit more about what you're aiming for — every detail makes your Q&A and role list more personal.")}${nextSteps()}</div>${composer(tray(false))}`;
   }
@@ -622,6 +623,7 @@ function render() {
   const lw = document.getElementById('lw'); const sc = lw ? lw.scrollTop : 0;
   app.innerHTML = html + demoMenu();
   if (S.view === 'landing') { const n = document.getElementById('lw'); if (n) n.scrollTop = sc; }
+  if (S.view === 'chat' && (S.stage === 'unfinished' || S.stage === 'after')) { const sb = () => { const c = document.querySelector('.conv'); if (c) c.scrollTop = c.scrollHeight; }; sb(); requestAnimationFrame(sb); setTimeout(sb, 120); if (document.fonts) document.fonts.ready.then(sb); } // newest message in view, like 04c / H01
   fit();
 }
 function fit() {
