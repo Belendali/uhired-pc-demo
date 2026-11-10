@@ -31,8 +31,6 @@ const ic = (n, s = 18, st = '') => `<svg class="i" width="${s}" height="${s}" vi
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 /* ---------------- data (from the board) ---------------- */
-const ANSWER = "Last year a caller was upset because his internet had been down for three days and he'd already called twice. My goal was to keep him on the line and fix it this time. I listened, apologized and told him what I'd check first. In Zendesk I saw his ticket had been closed by mistake, so I reopened it, escalated it to our field team and booked a technician for the next morning. The next day the line was working and he rated us 5 out of 5.";
-const WORDS = ANSWER.split(' ');
 const MOCK_QS = [
   ['Tell me about a time you calmed down an angry customer.', 'Behavioral'],
   ['How do you keep handle time low without rushing the caller?', 'Situational'],
@@ -65,7 +63,7 @@ const S = {
   collapsed: false,
   newbot: { name: 'VA coach', resume: 0, where: 'Remote · Philippines' },
   practiceTab: 0,
-  mock: { phase: 'ready', t: 0, w: 0, hints: true, micHints: true, pro: false },
+  mock: { phase: 'ready', t: 0, q: 0, qt: 0, hints: true, micHints: true, pro: false },
 };
 let timers = [];
 const later = (fn, ms) => timers.push(setTimeout(fn, ms));
@@ -309,7 +307,9 @@ function chatView() {
 }
 
 /* ---------------- mock interview ---------------- */
-const fmt = t => `00:${String(Math.min(59, Math.floor(t))).padStart(2, '0')}`;
+const fmt = t => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+const Q_AUTO = 35; // AI moves on to the next question after ~35s of answering (demo pacing)
+const hintFor = q => REVIEW[q].hint.replace(/\[\[|\]\]/g, '');
 function topbar(right, back = 'back-chat', backLabel = 'BPO coach', title = 'Mock interview') {
   return `<div class="topbar"><button class="back ln" data-act="${back}">${ic('arrow-left', 18)}${backLabel}</button><div class="vdiv"></div>
     <div class="row" style="gap:10px"><span class="h4">${title}</span><span class="lc muted">Customer Service Representative · Atlas CX</span></div><div class="grow"></div>${right}</div>`;
@@ -346,26 +346,27 @@ function mockLive() {
   const timer = paused ? `<span class="pill lbg" style="background:var(--warning-soft);color:var(--warning)">${ic('clock', 14)}Paused · <span id="tm">${fmt(m.t)}</span></span>`
     : `<span class="pill lbg" style="background:var(--bg-page)">${ic('clock', 14)}<span id="tm">${fmt(m.t)}</span></span>`;
   const waveH = [10, 18, 28, 16, 34, 22, 12, 26, 14];
-  const words = WORDS.map((w, i) => `<span class="${i < m.w ? 'sp' : i === m.w ? 'cur' : ''}">${esc(w)}</span>`).join(' ');
+  const q = m.q || 0, Q = MOCK_QS[q];
   return `<div class="mock">${topbar(`${pills}${timer}${btn('End interview', 'sec sm', 'end')}`, ended ? 'end-save' : 'back-mock')}
   <div class="row" style="flex:1;align-items:stretch;min-height:0">
-    <aside class="rail"><div class="row"><span class="h4 grow">Questions</span><span class="lc muted">1 of 5</span></div>
-      <div class="segs">${MOCK_QS.map((_, i) => `<i class="${i === 0 ? 'on' : ''}"></i>`).join('')}</div>
-      <div class="col" style="gap:4px">${MOCK_QS.map((q, i) => `<div class="rq ${i === 0 ? 'on' : ''}"><div class="n lbg">${i + 1}</div><div class="col grow" style="gap:2px"><span class="bc t ${i ? 'muted' : ''}">${q[0]}</span><span class="lc ${i ? 'muted' : 'pri'}">${i ? q[1] : 'Answering now · ' + q[1]}</span></div></div>`).join('')}</div>
+    <aside class="rail"><div class="row"><span class="h4 grow">Questions</span><span class="lc muted">${q + 1} of 5</span></div>
+      <div class="segs">${MOCK_QS.map((_, i) => `<i class="${i <= q ? 'on' : ''}"></i>`).join('')}</div>
+      <div class="col" style="gap:4px">${MOCK_QS.map((x, i) => `<div class="rq ${i === q ? 'on' : i < q ? 'done' : ''}"><div class="n lbg">${i < q ? ic('check', 14) : i + 1}</div><div class="col grow" style="gap:2px"><span class="bc t ${i > q ? 'muted' : ''}">${x[0]}</span><span class="lc ${i === q ? 'pri' : 'muted'}" style="${i < q ? 'color:var(--success)' : ''}">${i === q ? 'Answering now · ' + x[1] : i < q ? 'Answered · ' + x[1] : x[1]}</span></div></div>`).join('')}</div>
       <div style="flex:1"></div>
       <div class="col" style="gap:6px;padding:16px;border-radius:16px;background:var(--primary-soft)">
-        ${paused ? `<span class="row lbg pri" style="gap:8px">${ic('lightbulb', 16)}Hints are on</span><span class="lc body">The faint text is a guide built from your resume. Pause anytime; the mic turns off until you continue.</span>`
+        ${paused ? `<span class="row lbg pri" style="gap:8px">${ic('lightbulb', 16)}Hints are on</span><span class="lc body">Hints are a guide built from your resume. Pause anytime; the mic turns off until you continue.</span>`
       : `<span class="row lbg pri" style="gap:8px">${ic('lightbulb', 16)}Answer with STAR</span><span class="lc body">Situation, Task, Action, Result. Interviewers listen for all four, especially the result.</span>`}</div></aside>
     <div class="mmain"><div class="mcol">
-      <div class="qcard"><div class="row" style="gap:10px"><span class="pill lbg" style="background:var(--primary-soft);color:var(--primary)">Behavioral</span><span class="lc muted">Question 1 of 5</span><div class="grow"></div><button class="skip lc">Skip</button></div>
-        <span class="hq">Tell me about a time you calmed down an angry customer.</span></div>
+      <div class="qcard"><div class="row" style="gap:10px"><span class="pill lbg" style="background:var(--primary-soft);color:var(--primary)">${Q[1]}</span><span class="lc muted">Question ${q + 1} of 5</span><div class="grow"></div><button class="skip lc" data-act="next-q">Skip</button></div>
+        <span class="hq">${Q[0]}</span></div>
       <div class="answer ${m.hints ? '' : 'off'}"><div class="row" style="gap:8px"><span class="pri">${ic('sparkles', 16)}</span><span class="lbg grow">Suggested answer</span><span class="lc muted">Hints</span><span class="sw ${m.hints ? 'on' : ''}" data-act="hints"><i></i></span></div>
-        <div class="txt" id="ans">${words}</div></div>
+        <div class="txt" id="ans">${esc(hintFor(q))}</div></div>
       <div class="recorder ${paused || ended ? 'paused' : 'live'}">
         <div class="row" style="gap:8px">${paused || ended ? '<i class="livedot" style="background:var(--warning);animation:none"></i><span class="ln" style="color:var(--warning)">Paused · mic off</span>' : '<i class="livedot"></i><span class="ln">Mic on · listening</span>'}</div>
         <div class="row" style="gap:24px"><div class="wave">${waveH.map(h => `<i style="height:${h}px"></i>`).join('')}</div>
           <button class="bigbtn" data-act="${paused ? 'resume-live' : 'pause'}">${paused || ended ? ic('play', 28) : ic('pause', 28)}</button>
-          <div class="wave">${waveH.slice().reverse().map(h => `<i style="height:${h}px"></i>`).join('')}</div></div></div>
+          <div class="wave">${waveH.slice().reverse().map(h => `<i style="height:${h}px"></i>`).join('')}</div></div>
+        ${btn(q === 4 ? 'Done, finish interview' : 'Done, next question', 'sec sm', 'next-q')}</div>
     </div></div>
   </div>
   ${m.phase === 'paywall' ? paywall() : ''}${m.phase === 'proOn' ? proOn() : ''}${m.phase === 'confirm' ? endConfirm() : ''}${S.toast ? `<div class="toast lb">${S.toast}</div>` : ''}</div>`;
@@ -377,8 +378,8 @@ function paywall() {
     <button class="mclose" data-act="end-save">${ic('x', 18)}</button>
     <div class="ico-tile" style="width:56px;height:56px;border-radius:16px;background:var(--grad-bot);color:#fff">${ic('crown', 26)}</div>
     <div class="col" style="gap:8px"><span class="hq">Your 30-second preview is up</span><span class="bd body">Nice start, Maria. Upgrade to finish all 5 questions. We’ll keep what you’ve said so far and show your results and advice at the end.</span></div>
-    <div class="col" style="gap:8px;padding:12px 16px;border-radius:14px;background:var(--bg-page)"><div class="row"><span class="lbg grow">Question 1 of 5 · saved at 0:30</span><span class="lc muted">4 to go</span></div>
-      <div class="segs">${[1, 0, 0, 0, 0].map(o => `<i style="background:var(--${o ? 'primary' : 'border'})"></i>`).join('')}</div></div>
+    <div class="col" style="gap:8px;padding:12px 16px;border-radius:14px;background:var(--bg-page)"><div class="row"><span class="lbg grow">Question ${(S.mock.q || 0) + 1} of 5 · saved at ${fmt(S.mock.t).slice(1)}</span><span class="lc muted">${4 - (S.mock.q || 0)} to go</span></div>
+      <div class="segs">${[0, 1, 2, 3, 4].map(k => k <= (S.mock.q || 0)).map(o => `<i style="background:var(--${o ? 'primary' : 'border'})"></i>`).join('')}</div></div>
     ${feats()}
     <div class="row" style="gap:12px;padding:16px 20px;border-radius:16px;background:var(--bg-page);border:1px solid var(--border)">
       <div class="col grow" style="gap:2px"><span class="row ln" style="gap:6px"><span class="pri">${ic('crown', 16)}</span>Uhired Pro</span><span class="lc muted">Billed monthly · cancel anytime</span></div>
@@ -393,9 +394,9 @@ function endConfirm() {
   return `<div class="scrim"><div class="modal" style="width:560px">
     <button class="mclose" data-act="keep-going">${ic('x', 18)}</button>
     <div class="ico-tile" style="width:56px;height:56px;border-radius:16px;background:var(--grad-bot);color:#fff">${ic('history', 26)}</div>
-    <div class="col" style="gap:8px"><span class="hq">End this mock interview?</span><span class="bd body">You’re ${s} seconds into question 1 of 5. We’ll keep it in Mock history as Unfinished, so you can resume right where you stopped. Results and advice come after all 5.</span></div>
-    <div class="col" style="gap:8px;padding:12px 16px;border-radius:14px;background:var(--bg-page)"><div class="row"><span class="lbg grow">Question 1 of 5 · saved at ${fmt(m.t).slice(1)}</span><span class="lc muted">Unfinished</span></div>
-      <div class="segs">${[1, 0, 0, 0, 0].map(o => `<i style="background:var(--${o ? 'primary' : 'border'})"></i>`).join('')}</div></div>
+    <div class="col" style="gap:8px"><span class="hq">End this mock interview?</span><span class="bd body">You’re ${s} seconds in, on question ${(m.q || 0) + 1} of 5. We’ll keep it in Mock history as Unfinished, so you can resume right where you stopped. Results and advice come after all 5.</span></div>
+    <div class="col" style="gap:8px;padding:12px 16px;border-radius:14px;background:var(--bg-page)"><div class="row"><span class="lbg grow">Question ${(m.q || 0) + 1} of 5 · saved at ${fmt(m.t).slice(1)}</span><span class="lc muted">Unfinished</span></div>
+      <div class="segs">${[0, 1, 2, 3, 4].map(k => k <= (m.q || 0)).map(o => `<i style="background:var(--${o ? 'primary' : 'border'})"></i>`).join('')}</div></div>
     ${btn('Keep going', 'primary full', 'keep-going')}
     <button class="ln muted" style="align-self:center" data-act="end-save">End and save for later</button>
   </div></div>`;
@@ -403,7 +404,7 @@ function endConfirm() {
 function proOn() {
   return `<div class="scrim"><div class="modal" style="width:520px;padding:40px 32px 32px;align-items:center;text-align:center">
     <div class="ico-tile" style="width:72px;height:72px;border-radius:36px;background:var(--success-soft);color:var(--success)">${ic('check', 34)}</div>
-    <div class="col" style="gap:8px"><span class="hq">You’re on Pro</span><span class="bd body">Your interview is saved at 0:30. Pick up right where you left off.</span></div>
+    <div class="col" style="gap:8px"><span class="hq">You’re on Pro</span><span class="bd body">Your interview is saved at ${fmt(S.mock.t).slice(1)}. Pick up right where you left off.</span></div>
     <div style="text-align:left;width:100%">${feats()}</div>
     ${btn('Continue interview', 'primary full', 'continue')}
   </div></div>`;
@@ -485,10 +486,9 @@ function rvStarts(r) {
 const rvCur = r => { const st = rvStarts(r); let c = 0; st.forEach((s, i) => { if (S.rv.t >= s) c = i; }); return S.rv.t > 0 || S.rv.playing ? c : -1; };
 function reviewView() {
   const i = S.rv.q, r = REVIEW[i], cur = rvCur(r), played = Math.floor(S.rv.t / r.dur * WAVE.length);
-  const hint = r.hint.replace(/\[\[(.+?)\]\]/g, '<s>$1</s>');
-  const mark = ok => `<span class="mk" style="background:var(--${ok ? 'success' : 'warning'}-soft);color:var(--${ok ? 'success' : 'warning'})">${ic(ok ? 'check' : 'lightbulb', 14)}</span>`;
+  const hint = esc(r.hint.replace(/\[\[|\]\]/g, ''));
   const last = i === REVIEW.length - 1;
-  return `<div class="mock">${topbar(`${proPill()}<span class="pill lbg" style="background:var(--bg-page)">${ic('history', 14)}Saved to Mock history</span>${btn('Previous', 'sec sm', 'rv-prev', i === 0 ? 'disabled style="opacity:.4;cursor:default"' : '')}${btn(last ? 'Back to results' : 'Next question', 'dark sm', last ? 'back-results' : 'rv-next')}`, 'back-results', 'Results', 'Answer review')}
+  return `<div class="mock">${topbar(`${proPill()}${btn('Previous', 'sec sm', 'rv-prev', i === 0 ? 'disabled style="opacity:.4;cursor:default"' : '')}${btn(last ? 'Back to results' : 'Next question', 'dark sm', last ? 'back-results' : 'rv-next')}`, 'back-results', 'Results', 'Answer review')}
   <div class="row" style="flex:1;align-items:stretch;min-height:0">
     <aside class="rail"><div class="row"><span class="h4 grow">Your answers</span><span class="lc muted">7.6 avg</span></div>
       <div class="segs">${REVIEW.map(() => '<i class="on"></i>').join('')}</div>
@@ -506,17 +506,9 @@ function reviewView() {
           <div class="row" style="gap:8px">${[[r.wpm, r.wpmTone], [`${r.fillers} filler word${r.fillers === 1 ? '' : 's'}`, r.fillers ? 'warning' : 'success'], [r.chk, 'primary']].map(s => `<span class="stag lbg" style="padding:4px 10px;background:var(--${s[1]}-soft);color:var(--${s[1]})">${s[0]}</span>`).join('')}</div>
           <div class="col" style="gap:8px"><span class="le muted">What you said</span>
             <div class="said" id="rv-said">${r.said.map((s, k) => `<span class="${k === cur ? 'cur' : ''}" data-seek-s="${k}">${s.replace(/\{\{(.+?)\}\}/g, '<em class="fill">$1</em>')}</span>`).join(' ')}</div></div></div>
-        <div class="card"><div class="row" style="gap:8px"><span class="pri">${ic('sparkles', 16)}</span><span class="h4 grow">${r.hints ? 'Hints you saw' : 'Suggested answer'}</span><span class="lc muted">${r.hints ? 'Shown while you answered' : 'Hints were off for this answer'}</span></div>
+        <div class="card"><div class="row" style="gap:8px"><span class="pri">${ic('sparkles', 16)}</span><span class="h4 grow">${r.hints ? 'Hints you saw' : 'Suggested answer'}</span><span class="lc muted">${r.hints ? 'Shown while you answered · a guide, not a script' : 'Hints were off for this answer'}</span></div>
           <div class="hint-t ${r.hints ? '' : 'off'}">${hint}</div>
-          ${r.hints ? `<div class="row bs muted" style="gap:16px"><span class="row" style="gap:6px"><i class="ldot" style="background:var(--ink)"></i>You said it (in your own words)</span><span class="row" style="gap:6px"><i class="ldot" style="background:#b0b6c3"></i>You skipped it</span></div>` : ''}</div>
-      </div>
-      <div class="rv-right">
-        <div class="card" style="padding:24px"><span class="h3">Feedback on this answer</span>
-          <div class="col" style="gap:12px"><span class="le muted">${r.checkLabel}</span>${r.check.map(c => `<div class="row" style="gap:12px;align-items:flex-start">${mark(c[2])}<div class="col grow"><span class="h4">${c[0]}</span><span class="bs muted">${c[1]}</span></div></div>`).join('')}</div>
-          <div style="height:1px;background:var(--border)"></div>
-          <div class="col" style="gap:12px"><span class="le muted">What worked</span>${r.worked.map(w => `<div class="row" style="gap:12px">${mark(1)}<span class="h4 grow">${w}</span></div>`).join('')}</div>
-          <div class="col" style="gap:12px"><span class="le muted">To improve</span>${r.improve.map(w => `<div class="row" style="gap:12px;align-items:flex-start">${mark(0)}<div class="col grow"><span class="h4">${w[0]}</span><span class="bs muted">${w[1]}</span></div></div>`).join('')}</div></div>
-        <div class="card" style="background:var(--primary-soft);border:0;padding:24px;gap:12px"><span class="le pri">Try opening with</span><span class="blt">${r.opener}</span>${btn('Practice this question', 'primary full', 'mock')}</div>
+</div>
       </div>
     </div>
   </div></div>`;
@@ -572,12 +564,12 @@ function landing() {
 /* ---------------- demo menu ---------------- */
 const SCREENS = [
   ['Start now', [['—', 'Landing', () => reset({ view: 'landing' })], ['02', 'Welcome · upload resume', () => reset({ view: 'chat', stage: 'welcome' })], ['03', 'Reading resume', () => { reset({ view: 'chat', stage: 'reading', readStep: 0 }); runReading(); }],
-    ['04', 'Results · cards in chat', () => reset({ view: 'chat', stage: 'inline' })], ['04b', 'Results · pinned above the box', () => reset({ view: 'chat', stage: 'results' })], ['04c', 'Ended early · saved as Unfinished', () => { reset({ view: 'chat', stage: 'unfinished' }); S.mock.t = 18; S.mock.w = 36; render(); }],
+    ['04', 'Results · cards in chat', () => reset({ view: 'chat', stage: 'inline' })], ['04b', 'Results · pinned above the box', () => reset({ view: 'chat', stage: 'results' })], ['04c', 'Ended early · saved as Unfinished', () => { reset({ view: 'chat', stage: 'unfinished' }); S.mock.t = 18; render(); }],
     ['05', 'Practice set panel', () => reset({ view: 'chat', stage: 'results', panel: 'practice' })], ['05b', 'Open roles panel', () => reset({ view: 'chat', stage: 'results', panel: 'roles' })],
     ['07', 'New bot', () => reset({ view: 'chat', stage: 'results', modal: 'newbot' })], ['08', 'VA coach created', () => reset({ view: 'chat', stage: 'results', hasVA: true, bot: 'va' })]]],
-  ['Mock interview', [['M01', 'Ready + mic check', () => reset({ view: 'mock' })], ['M02', 'AI mock · listening', () => { reset({ view: 'mock' }); startLive(); }], ['M02c', 'Paused', () => { reset({ view: 'mock' }); S.mock.t = 12; S.mock.w = 30; S.mock.phase = 'paused'; render(); }],
-    ['M02e', 'End early? confirm', () => { reset({ view: 'mock' }); S.mock.t = 18; S.mock.w = 36; S.mock.phase = 'confirm'; S.mock.prev = 'live'; render(); }],
-    ['M10', '30s preview ends', () => { reset({ view: 'mock' }); S.mock.t = 30; S.mock.w = 74; S.mock.phase = 'paywall'; render(); }], ['M11', 'Pro activated', () => { reset({ view: 'mock', plan: 'pro' }); S.mock.t = 30; S.mock.w = 74; S.mock.phase = 'proOn'; render(); }],
+  ['Mock interview', [['M01', 'Ready + mic check', () => reset({ view: 'mock' })], ['M02', 'AI mock · listening', () => { reset({ view: 'mock' }); startLive(); }], ['M02c', 'Paused', () => { reset({ view: 'mock' }); S.mock.t = 12; S.mock.phase = 'paused'; render(); }],
+    ['M02e', 'End early? confirm', () => { reset({ view: 'mock' }); S.mock.t = 18; S.mock.phase = 'confirm'; S.mock.prev = 'live'; render(); }],
+    ['M10', '30s preview ends', () => { reset({ view: 'mock' }); S.mock.t = 30; S.mock.phase = 'paywall'; render(); }], ['M11', 'Pro activated', () => { reset({ view: 'mock', plan: 'pro' }); S.mock.t = 30; S.mock.phase = 'proOn'; render(); }],
     ['M12', 'Results + advice', () => reset({ view: 'results', plan: 'pro', stage: 'after' })], ['M13', 'Answer review · recording + hints', () => { reset({ plan: 'pro', stage: 'after' }); openReview(0, 42, true); }]]],
   ['Mock history', [['H01', 'Back in chat · history pinned', () => reset({ view: 'chat', plan: 'pro', stage: 'after' })], ['H02', 'Mock history panel', () => reset({ view: 'chat', plan: 'pro', stage: 'after', panel: 'history', seenHistory: true })]]],
 ];
@@ -588,7 +580,7 @@ function demoMenu() {
 }
 function reset(patch) {
   clearTimers(); clearInterval(S._rv);
-  Object.assign(S, { rv: { q: 0, t: 0, playing: false, speed: 1 }, rolesTab: 0, view: 'landing', plan: 'free', stage: 'welcome', readStep: 2, bot: 'bpo', hasVA: false, panel: null, modal: null, toast: null, seenHistory: false, mock: { phase: 'ready', t: 0, w: 0, hints: true } }, patch);
+  Object.assign(S, { rv: { q: 0, t: 0, playing: false, speed: 1 }, rolesTab: 0, view: 'landing', plan: 'free', stage: 'welcome', readStep: 2, bot: 'bpo', hasVA: false, panel: null, modal: null, toast: null, seenHistory: false, mock: { phase: 'ready', t: 0, q: 0, qt: 0, hints: true } }, patch);
   menuOpen = false; render();
 }
 
@@ -602,14 +594,19 @@ function tickLive() {
   clearInterval(S._tick);
   S._tick = setInterval(() => {
     const m = S.mock; if (m.phase !== 'live') return;
-    m.t += 0.25;
-    if (Math.floor(m.t * 4) % 2 === 0 && m.w < WORDS.length) m.w += 1; // ~2 words / sec
+    m.t += 0.25; m.qt = (m.qt || 0) + 0.25;
     const tm = document.getElementById('tm'); if (tm) tm.textContent = fmt(m.t);
-    const ans = document.getElementById('ans');
-    if (ans) [...ans.children].forEach((el, i) => el.className = i < m.w ? 'sp' : i === m.w ? 'cur' : '');
     if (S.plan === 'free' && m.t >= 30) { m.phase = 'paywall'; clearInterval(S._tick); render(); }
-    else if (S.plan === 'pro' && m.w >= WORDS.length) { clearInterval(S._tick); S.toast = 'Interview finished · building your results…'; render(); later(() => { S.toast = null; go({ view: 'results', stage: 'after' }); }, 1400); }
+    else if (m.qt >= Q_AUTO) nextQuestion(true); // AI decides you're done and moves on
   }, 250);
+}
+// Done / Skip / AI auto-advance → next question; after Q5 the interview ends (Pro → results)
+function nextQuestion(auto) {
+  const m = S.mock;
+  if ((m.q || 0) >= MOCK_QS.length - 1) { clearInterval(S._tick); m.phase = 'done'; S.toast = 'Interview finished · building your results…'; render(); later(() => { S.toast = null; go({ view: 'results', stage: 'after', plan: 'pro' }); }, 1400); return; }
+  m.q = (m.q || 0) + 1; m.qt = 0;
+  S.toast = auto ? 'Got it · next question' : null; render();
+  if (auto) later(() => { S.toast = null; if (S.view === 'mock') render(); }, 1300);
 }
 function startLive() { S.mock.phase = 'live'; render(); tickLive(); }
 
@@ -644,11 +641,12 @@ const ACTIONS = {
   practice: () => go({ panel: S.panel === 'practice' ? null : 'practice' }),
   history: () => go({ panel: S.panel === 'history' ? null : 'history', seenHistory: true }),
   'close-panel': () => go({ panel: null }),
-  mock: () => { clearTimers(); S.mock = { phase: 'ready', t: 0, w: 0, hints: S.mock.hints }; go({ view: 'mock', panel: null, modal: null }); },
+  mock: () => { clearTimers(); S.mock = { phase: 'ready', t: 0, q: 0, qt: 0, hints: S.mock.hints }; go({ view: 'mock', panel: null, modal: null }); },
   start: () => startLive(),
-  resume: () => { clearTimers(); S.mock = { phase: 'ready', t: 0, w: 0, hints: true }; S.view = 'mock'; S.panel = null; startLive(); },
+  resume: () => { clearTimers(); S.mock = { phase: 'ready', t: 0, q: 0, qt: 0, hints: true }; S.view = 'mock'; S.panel = null; startLive(); },
   pause: () => { S.mock.phase = 'paused'; render(); },
   'resume-live': () => startLive(),
+  'next-q': () => { if (S.mock.phase === 'live' || S.mock.phase === 'paused') { if (S.mock.phase === 'paused') S.mock.phase = 'live'; nextQuestion(false); if (S.mock.phase === 'live') tickLive(); } },
   hints: () => { S.mock.hints = !S.mock.hints; render(); },
   roles: () => go({ panel: S.panel === 'roles' ? null : 'roles' }),
   // End interview: Pro → results for what you answered (M11 → M12); free → confirm (M02 → M02e)
