@@ -351,8 +351,11 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .upcard .dz{display:flex;align-items:center;gap:16px;padding:18px 12px 18px 24px;border-radius:16px;background:var(--bg-page);border:1.5px dashed var(--primary-light)}
 .upcard .dz .ib{width:48px;height:48px;border-radius:14px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:none}
 .upcard:hover .dz{border-color:var(--primary)}
-.flowsteps{display:flex;align-items:center;gap:12px;padding-top:28px}
-.fnum{width:24px;height:24px;border-radius:12px;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
+.flowsteps{display:flex;align-items:stretch;gap:12px;padding-top:28px;width:960px}
+.fstep{flex:1;display:flex;gap:10px;align-items:flex-start;padding:14px;border-radius:16px;background:#fff;border:1px solid var(--border);text-align:left}
+.ftag{display:flex;gap:4px;align-items:flex-start;padding:4px 10px 4px 8px;border-radius:8px;background:var(--primary-soft);color:var(--primary)}
+.ftag svg{flex:none;margin-top:2px}
+.fnum{flex:none;width:24px;height:24px;border-radius:12px;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
 .jobsec{padding:96px 80px;background:#fff;display:flex;flex-direction:column;gap:32px}
 .fpill{padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--text-body)}
 .fpill.on{background:var(--ink);border-color:var(--ink);color:#fff}
