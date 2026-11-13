@@ -738,7 +738,8 @@ function fit() {
   const st = document.getElementById('stage');
   if (st) { const s = Math.min(innerWidth / 1440, innerHeight / 900); st.style.transform = `translate(-50%,-50%) scale(${s})`; st.style.transformOrigin = '50% 50%'; st.style.left = '50%'; st.style.top = '50%'; }
   const land = document.getElementById('land');
-  if (land) { const s = innerWidth / 1440; land.style.zoom = s; const f = document.getElementById('fcta'); if (f) { f.style.zoom = s; } }
+  // site pages render 1:1 like uhiredai.com (80px side padding, content stretches); only scale DOWN below 1440
+  if (land) { const s = Math.min(1, innerWidth / 1440); land.style.zoom = s; land.style.width = s < 1 ? '1440px' : '100%'; const f = document.getElementById('fcta'); if (f) { f.style.zoom = s; } }
 }
 addEventListener('resize', fit);
 
