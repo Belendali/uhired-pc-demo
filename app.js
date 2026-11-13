@@ -555,13 +555,30 @@ function landing() {
         <div class="col" style="gap:4px"><span class="h3l">${j[2]}</span><span class="bs muted">${j[3]}</span></div><span class="h4">${j[4]}</span>
         <div class="row" style="gap:6px">${j[5].map(t => `<span class="jtag lc">${t}</span>`).join('')}</div><div style="flex:1"></div><div class="jdiv"></div>
         <div class="row"><span class="mlock lbg">${ic('lock', 12)}?? % match</span><div class="grow"></div><span class="row lb pri" style="gap:4px">See my match ${ic('arrow-right', 14)}</span></div></div>`).join('')}</div></section>
-    <section class="samplesec"><div class="col" style="gap:12px;align-items:center;text-align:center"><span class="le pri">See a sample</span><span class="h2">One resume in. Everything you need out.</span><span class="bl muted">Here’s what Uhired built from a sample BPO resume in about 20 seconds. Yours is next.</span></div>
-      <div class="stabs">${['BPO agent', 'Virtual assistant', 'Overseas nurse'].map((t, i) => `<span class="ln ${i ? '' : 'on'}">${t}</span>`).join('')}</div>
-      <div class="row" style="gap:24px;align-items:center">
-        <div class="sresume"><span class="le muted">Sample resume</span><div class="file"><div class="ib">${ic('file', 18)}</div><div class="col"><span class="h4">Maria_Santos_Resume.pdf</span><span class="lc muted">PDF · 182 KB</span></div></div>
-          ${['Maria Santos · Quezon City', '4 years in customer support', 'De-escalation, Zendesk, QA score 96%', 'Wants: BPO roles in Metro Manila'].map(l => `<span class="row bd body" style="gap:10px"><span style="color:var(--success)">${ic('check', 16)}</span>${l}</span>`).join('')}</div>
-        <div class="col" style="gap:8px;align-items:center"><span class="sarrow">${ic('arrow-right', 20)}</span><span class="lc muted">~20 sec</span></div>
-        <div class="sample-out col" style="gap:16px">${(resultCards() + nextSteps()).replace(/data-act="[^"]*"/g, 'data-act="upload"')}</div></div>
+    <section class="samplesec"><div class="col" style="gap:12px;align-items:center;text-align:center"><span class="le pri">See it in action</span><span class="h2">Here’s what you’ll actually use.</span><span class="bl muted">Match jobs and practice on your computer. Get live hints on your phone in the real interview.</span></div>
+      <div class="showcase"><div class="col grow" style="gap:24px">
+        <div class="row" style="gap:24px;align-items:stretch">
+          <div class="spanel"><span class="plat lc">On your computer</span><span class="h3l">Match jobs</span><span class="bd muted">Open roles ranked by how well they fit your resume.</span><div class="shot shot-roles" data-act="upload">${resultCards().replace(/data-act="[^"]*"/g, '')}</div></div>
+          <div class="spanel"><span class="plat lc">On your computer</span><span class="h3l">Answers in your voice</span><span class="bd muted">Likely questions, with answers written the way you talk.</span><div class="shot shot-practice" data-act="upload">${resultCards().replace(/data-act="[^"]*"/g, '')}</div></div></div>
+        <div class="spanel wide"><div class="col" style="gap:8px;width:240px;flex:none"><span class="plat lc">On your computer</span><span class="h3l">Practice with AI</span><span class="bd muted">A mock interview out loud. Hints help when you’re stuck, and you tap “Done, next question” when you’re finished.</span></div>
+          <div class="shot shot-mock" data-act="upload"><div class="mcol">
+            <div class="qcard"><div class="row" style="gap:10px"><span class="pill lbg" style="background:var(--primary-soft);color:var(--primary)">Behavioral</span><span class="lc muted">Question 1 of 5</span><div class="grow"></div><span class="skip lc">Skip</span></div><span class="hq">${MOCK_QS[0][0]}</span></div>
+            <div class="answer"><div class="row" style="gap:8px"><span class="pri">${ic('sparkles', 16)}</span><span class="lbg grow">Suggested answer</span><span class="lc muted">Hints</span><span class="sw on"><i></i></span></div><div class="txt">${esc(hintFor(0))}</div></div>
+            <div class="recorder live"><div class="row" style="gap:8px"><i class="livedot"></i><span class="ln">Mic on · listening</span></div>
+              <div class="row" style="gap:24px"><div class="wave">${[10, 18, 28, 16, 34, 22, 12, 26, 14].map(h => `<i style="height:${h}px"></i>`).join('')}</div><span class="bigbtn">${ic('pause', 28)}</span><div class="wave">${[14, 26, 12, 22, 34, 16, 28, 18, 10].map(h => `<i style="height:${h}px"></i>`).join('')}</div></div>
+              <span class="btn sec sm">Done, next question</span></div></div></div></div>
+      </div>
+      <div class="spanel phonep"><span class="plat lc">${ic('phone', 12)}On your phone</span><span class="h3l">Live AI help</span><span class="bd muted">In the real interview, the app runs in the background and shows you hints.</span>
+        <div class="pstage"><div class="iphone"><i class="sb" style="left:-3px;top:170px;height:30px"></i><i class="sb" style="left:-3px;top:220px;height:60px"></i><i class="sb" style="left:-3px;top:292px;height:60px"></i><i class="sb" style="right:-3px;top:250px;height:95px"></i>
+          <div class="iscreen"><div class="island"></div>
+            <div class="sbar"><span>9:41</span><span class="row" style="gap:5px"><i style="width:17px;height:10px;border-radius:2px;background:#111"></i><i style="width:24px;height:11px;border-radius:3px;border:1.5px solid #111"></i></span></div>
+            <div class="bothead"><span style="font-size:22px">←</span><span class="grow">Interview Bot</span><span class="endp">End</span></div>
+            <div class="botq">A time you had to work with a difficult stakeholder</div>
+            <div class="bota">Situation: In a redesign project, one stakeholder kept pushing for features that conflicted with user research findings.<br><br>Task: My role was to balance their requests while keeping the project aligned with user needs and timelines.</div>
+            <div class="grow"></div>
+            <div class="botbtns"><span class="b1">◉ Stop</span><span class="b2">➤ Answer now</span></div>
+            <div class="bottx">Speaker 1: Hi, how are you doing today?<br>I am so happy that you can join the call today.<br>My name is Alma, I am here to talk about this position with you.<br>First, tell me about a time you had to work with a difficult stakeholder.</div></div></div></div></div>
+      </div>
       <div class="row" style="gap:12px">${btn('Try it with my resume', 'primary', 'start-now')}${btn('Open this sample', 'sec', 'upload')}</div></section>
     <section class="stats">${[['6+', 'Role categories supported'], ['4', 'Core AI features'], ['100%', 'Personalized to your resume']].map(s => `<div><span class="dstat pri">${s[0]}</span><span class="bc body">${s[1]}</span></div>`).join('')}</section>
     <section class="lsec"><div class="col" style="gap:16px;width:672px"><span class="le pri">What it does</span><span class="h2">From your resume to the real interview, in four steps.</span></div>

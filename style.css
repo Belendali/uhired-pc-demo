@@ -376,3 +376,31 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .sarrow{width:44px;height:44px;border-radius:22px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center}
 .sample-out{width:800px;flex:none}
 .sample-out .indent{padding-left:0}
+
+/* landing v2 — "See it in action" showcase */
+.showcase{display:flex;gap:24px;width:1280px;align-items:stretch}
+.spanel{flex:1;display:flex;flex-direction:column;gap:8px;padding:28px;border-radius:24px;background:#fff;border:1px solid var(--border);text-align:left}
+.spanel.wide{flex-direction:row;align-items:center;gap:28px}
+.plat{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--primary-soft);color:var(--primary);margin-bottom:4px}
+.shot{margin-top:12px;padding:16px;border-radius:16px;background:var(--bg-page);display:flex;justify-content:center;overflow:hidden;cursor:pointer}
+.shot .indent{padding-left:0;zoom:.894}
+.shot-roles .rcard2:first-child,.shot-practice .rcard2:last-child{display:none}
+.shot-roles .rcard2,.shot-practice .rcard2{width:369px;flex:none}
+.spanel.wide .shot{margin-top:0;flex:1}
+.shot-mock .mcol{width:800px;zoom:.625;gap:20px}
+.shot-mock .recorder{margin-top:44px}
+.phonep{flex:none;width:420px}
+.pstage{flex:1;margin-top:12px;border-radius:16px;background:linear-gradient(180deg,#edf0ff,#d9e0ff);display:flex;align-items:center;justify-content:center;padding:16px}
+.iphone{position:relative;width:399px;height:836px;border-radius:60px;background:#1c1c1f;box-shadow:inset 0 0 0 2px #5c5e66,0 30px 60px rgba(30,40,120,.25);padding:12px;zoom:.815;flex:none}
+.iphone .sb{position:absolute;width:4px;border-radius:2px;background:#333438}
+.iscreen{position:relative;width:375px;height:812px;border-radius:48px;overflow:hidden;background:#eef1ff;display:flex;flex-direction:column;font-family:Poppins}
+.island{position:absolute;left:126px;top:11px;width:122px;height:35px;border-radius:18px;background:#000}
+.sbar{height:44px;padding:0 26px 0 32px;display:flex;align-items:center;justify-content:space-between;font:600 16px Poppins;color:#111}
+.bothead{display:flex;align-items:center;gap:12px;padding:16px 20px 12px 24px;font:600 16px Poppins;color:#5b67a8}
+.endp{padding:6px 14px;border-radius:6px;background:#8ea0f6;color:#fff;font:600 12px Poppins}
+.botq{margin:4px 20px 0 24px;padding:14px 16px;border-radius:6px;background:#c3cdfb;color:#1d2a7a;font:600 14px/20px Poppins}
+.bota{margin:20px 20px 0 24px;padding:16px;border-radius:6px;background:#e1e7ff;color:#24318c;font:400 15px/24px Poppins}
+.botbtns{display:flex;gap:8px;padding:0 16px 12px}
+.botbtns span{flex:1;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;color:#fff;font:600 15px Poppins}
+.botbtns .b1{background:#8ea0f6}.botbtns .b2{background:#4a67f5}
+.bottx{background:#fff;padding:14px 16px 40px;color:#24318c;font:400 11px/16px Poppins;height:190px}
