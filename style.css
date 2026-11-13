@@ -345,3 +345,31 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .hint-t.off{color:var(--text-body)}
 .ldot{width:8px;height:8px;border-radius:4px;display:inline-block}
 .mk{width:24px;height:24px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+
+/* landing v2 — upload in hero, jobs hiring now, sample output */
+.upcard{margin-top:36px;width:760px;padding:10px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(69,89,242,.16);cursor:pointer}
+.upcard .dz{display:flex;align-items:center;gap:16px;padding:18px 12px 18px 24px;border-radius:16px;background:var(--bg-page);border:1.5px dashed var(--primary-light)}
+.upcard .dz .ib{width:48px;height:48px;border-radius:14px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:none}
+.upcard:hover .dz{border-color:var(--primary)}
+.flowsteps{display:flex;align-items:center;gap:12px;padding-top:28px}
+.fnum{width:24px;height:24px;border-radius:12px;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
+.jobsec{padding:96px 80px;background:#fff;display:flex;flex-direction:column;gap:32px}
+.fpill{padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--text-body)}
+.fpill.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.jgrid{display:flex;gap:24px}
+.jcard{flex:1;display:flex;flex-direction:column;gap:16px;padding:24px;border-radius:20px;border:1px solid var(--border);background:#fff}
+.jcard:hover{border-color:var(--primary-light)}
+.jlogo{width:44px;height:44px;border-radius:12px;color:#fff;display:flex;align-items:center;justify-content:center}
+.jtag{padding:4px 10px;border-radius:999px;background:var(--bg-page);color:var(--text-body)}
+.jdiv{height:1px;background:var(--border)}
+.mlock{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary)}
+.samplesec{padding:96px 80px;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;gap:40px}
+.stabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:#fff;border:1px solid var(--border)}
+.stabs span{padding:8px 18px;border-radius:999px;color:var(--text-body)}
+.stabs span.on{background:var(--ink);color:#fff}
+.sresume{width:340px;flex:none;display:flex;flex-direction:column;gap:16px;padding:24px;border-radius:20px;background:#fff;border:1px solid var(--border)}
+.sresume .file{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid var(--border);align-self:flex-start}
+.sresume .file .ib{width:36px;height:36px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center}
+.sarrow{width:44px;height:44px;border-radius:22px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center}
+.sample-out{width:800px;flex:none}
+.sample-out .indent{padding-left:0}

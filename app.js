@@ -2,6 +2,7 @@
    Landing (41:29181) · Start now flow (02, 03, 04, 04b, 05, 07, 08, H01, H02) · Mock interview flow (M01, M02, M02c, M10, M11, M12) */
 
 const ICONS = {
+  lock:'M6 11h12v10H6z|M8 11V7a4 4 0 0 1 8 0v4',
   upload:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4|M17 8l-5-5-5 5|M12 3v12',
   paperclip:'M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48',
   'arrow-up':'M12 19V5M19 12l-7-7-7 7', 'arrow-right':'M5 12h14M12 19l7-7-7-7', 'arrow-left':'M12 19l-7-7 7-7|M19 12H5',
@@ -537,15 +538,31 @@ function landing() {
   const tick = roles.concat(roles).map(r => `<span class="it h4">${r}<i></i></span>`).join('');
   return `<div class="landing-wrap" id="lw"><div class="landing" id="land">
     <header class="l-header"><div class="row" style="gap:8px"><div class="mark">U</div><span class="logo">Uhired AI</span></div>
-      <nav class="l-nav ln">${['Jobs', 'Use cases', 'Blog', 'Glossary', 'Compare', 'FAQ', 'How it works'].map(n => `<span>${n}</span>`).join('')}</nav>${btn('Download app', 'dark sm')}</header>
+      <nav class="l-nav ln">${['Jobs', 'Use cases', 'Blog', 'Glossary', 'Compare', 'FAQ', 'How it works'].map(n => `<span>${n}</span>`).join('')}</nav><div class="row" style="gap:8px">${btn('Download app', 'sec sm')}${btn('Start now', 'primary sm', 'start-now')}</div></header>
     <section class="hero"><div class="glow" style="width:384px;height:384px;left:1190px;top:-122px;background:var(--primary-soft)"></div><div class="glow" style="width:288px;height:288px;left:-80px;top:159px;background:rgba(60,92,250,.1)"></div>
-      <span class="badge-pill lbg pri"><i class="dot8"></i>AI-powered interview preparation</span>
-      <h1 class="h1">Everything you'll say.<br><em>Already ready.</em></h1>
-      <p class="lead bl">Uhired AI listens, thinks, and speaks for you — when it matters most. Practice with AI, get live prompts during the real call, and walk in confident.</p>
-      <div class="row" style="gap:12px;padding-top:32px">${btn('Start now', 'primary', 'start-now')}${btn('Download app', 'sec')}</div>
-      <p class="bc muted" style="padding-top:16px">Exploring opportunities? <a class="lb pri" style="text-decoration:underline">Browse open jobs</a></p>
+      <span class="badge-pill lbg pri"><i class="dot8"></i>New · Resume → interview prep + matched jobs, in one chat</span>
+      <h1 class="h1">Upload your resume.<br><em>Walk in already ready.</em></h1>
+      <p class="lead bl" style="width:760px">In about 20 seconds, Uhired turns your resume into interview answers in your voice, finds open jobs that match you, and lets you practice with an AI interviewer.</p>
+      <div class="upcard" data-act="upload"><div class="dz"><div class="ib">${ic('upload', 22)}</div><div class="col grow" style="gap:2px"><span class="h3l">Drop your resume here</span><span class="bs muted">PDF or DOCX · free · stays private to you</span></div>${btn('Start now', 'primary', 'upload')}</div></div>
+      <div class="row" style="gap:8px;padding-top:20px"><span class="bd muted">No resume handy? Try a sample:</span>${['BPO agent', 'Virtual assistant', 'Overseas nurse'].map(t => `<span class="chip ln" data-act="upload">${ic('plus', 14)}${t}</span>`).join('')}</div>
+      <div class="flowsteps">${['Upload your resume', 'Get answers in your voice + matched jobs', 'Practice with an AI interviewer'].map((t, i) => `<span class="row" style="gap:8px"><i class="fnum lbg">${i + 1}</i><span class="lc body">${t}</span></span>`).join(ic('chevron-right', 16, 'color:var(--text-muted)'))}</div>
       <div class="video-card"><img src="img/hero.jpg" alt="Illustrative scenario: BPO interview practice"><span class="vc-cap lc">Illustrative scenario: BPO interview practice</span><span class="vc-live lt"><i class="pulse"></i>Live AI</span></div></section>
     <div class="ticker"><div class="track">${tick}</div></div>
+    <section class="jobsec"><div class="row" style="align-items:flex-end"><div class="col grow" style="gap:12px"><span class="le pri">Open roles · Metro Manila &amp; remote</span><span class="h2">Jobs hiring now</span><span class="bl muted">Upload your resume and Uhired shows how well you match each one — then preps you for that exact interview.</span></div>
+        <span class="row lb pri click" style="gap:6px" data-act="start-now">Browse all open jobs ${ic('arrow-right', 16)}</span></div>
+      <div class="row" style="gap:8px">${['All jobs', 'BPO & call center', 'Virtual assistant', 'Nursing', 'Remote'].map((f, i) => `<span class="fpill ln ${i ? '' : 'on'}">${f}</span>`).join('')}</div>
+      <div class="jgrid">${[['A', 'var(--ink)', 'Customer Service Representative', 'Atlas CX · Taguig', '₱26–32k / month', ['Full-time', 'Onsite'], '2 days ago'], ['N', 'var(--primary)', 'Technical Support Associate', 'Northwind Connect · Pasig', '₱28–35k / month', ['Full-time', 'Hybrid'], '1 day ago'], ['B', 'var(--primary-light)', 'Chat Support Specialist', 'BrightCall · Remote', '₱24–30k / month', ['Full-time', 'Remote'], '3 days ago'], ['L', 'var(--success)', 'Virtual Assistant, E-commerce', 'Lumen Remote · Remote', '₱35–45k / month', ['Part-time', 'Remote'], 'Today']].map(j => `<div class="jcard click" data-act="start-now"><div class="row"><div class="jlogo li" style="background:${j[1]}">${j[0]}</div><div class="grow"></div><span class="lc muted">${j[6]}</span></div>
+        <div class="col" style="gap:4px"><span class="h3l">${j[2]}</span><span class="bs muted">${j[3]}</span></div><span class="h4">${j[4]}</span>
+        <div class="row" style="gap:6px">${j[5].map(t => `<span class="jtag lc">${t}</span>`).join('')}</div><div style="flex:1"></div><div class="jdiv"></div>
+        <div class="row"><span class="mlock lbg">${ic('lock', 12)}?? % match</span><div class="grow"></div><span class="row lb pri" style="gap:4px">See my match ${ic('arrow-right', 14)}</span></div></div>`).join('')}</div></section>
+    <section class="samplesec"><div class="col" style="gap:12px;align-items:center;text-align:center"><span class="le pri">See a sample</span><span class="h2">One resume in. Everything you need out.</span><span class="bl muted">Here’s what Uhired built from a sample BPO resume in about 20 seconds. Yours is next.</span></div>
+      <div class="stabs">${['BPO agent', 'Virtual assistant', 'Overseas nurse'].map((t, i) => `<span class="ln ${i ? '' : 'on'}">${t}</span>`).join('')}</div>
+      <div class="row" style="gap:24px;align-items:center">
+        <div class="sresume"><span class="le muted">Sample resume</span><div class="file"><div class="ib">${ic('file', 18)}</div><div class="col"><span class="h4">Maria_Santos_Resume.pdf</span><span class="lc muted">PDF · 182 KB</span></div></div>
+          ${['Maria Santos · Quezon City', '4 years in customer support', 'De-escalation, Zendesk, QA score 96%', 'Wants: BPO roles in Metro Manila'].map(l => `<span class="row bd body" style="gap:10px"><span style="color:var(--success)">${ic('check', 16)}</span>${l}</span>`).join('')}</div>
+        <div class="col" style="gap:8px;align-items:center"><span class="sarrow">${ic('arrow-right', 20)}</span><span class="lc muted">~20 sec</span></div>
+        <div class="sample-out col" style="gap:16px">${(resultCards() + nextSteps()).replace(/data-act="[^"]*"/g, 'data-act="upload"')}</div></div>
+      <div class="row" style="gap:12px">${btn('Try it with my resume', 'primary', 'start-now')}${btn('Open this sample', 'sec', 'upload')}</div></section>
     <section class="stats">${[['6+', 'Role categories supported'], ['4', 'Core AI features'], ['100%', 'Personalized to your resume']].map(s => `<div><span class="dstat pri">${s[0]}</span><span class="bc body">${s[1]}</span></div>`).join('')}</section>
     <section class="lsec"><div class="col" style="gap:16px;width:672px"><span class="le pri">What it does</span><span class="h2">It learns from your resume — and answers as if it were you.</span></div>
       <div class="fgrid">${[['M', 'Resume-based Q&A', 'Upload your resume and job description. Get interview questions and answers drafted in your voice.'], ['L', 'Live interview assist', 'During the real call, Uhired listens and discreetly shows your best answers in real time.'], ['P', 'Mock practice', 'Record and rehearse. Get AI feedback on pacing, clarity, and structure.'], ['S', 'Post-interview recap', 'A smart summary after every session so you keep improving.']].map(f => `<div class="fcard"><div class="ico-tile li">${f[0]}</div><div class="h3">${f[1]}</div><p class="bd body" style="margin-top:8px">${f[2]}</p></div>`).join('')}</div></section>
@@ -557,7 +574,7 @@ function landing() {
     <section class="closing dark-sec"><div class="glow" style="width:256px;height:256px;left:1250px;top:-10px;background:rgba(60,92,250,.25)"></div><div class="glow" style="width:265px;height:265px;left:-60px;top:164px;background:rgba(148,166,255,.15)"></div>
       <span class="dcta white" style="width:760px;position:relative">Invisible. But always thinking with you.</span>
       <p class="blt" style="color:var(--on-dark-muted);width:576px;padding-top:20px;position:relative">Confidence comes from rock-solid prep and a quiet safety net. Uhired gives you both.</p>
-      <div class="row" style="gap:12px;padding-top:32px;position:relative">${btn('Download on iOS', 'light')}${btn('Watch scenarios', '', '', 'style="border:1px solid rgba(255,255,255,.3);color:#fff"')}</div></section>
+      <div class="row" style="gap:12px;padding-top:32px;position:relative">${btn('Start now — it’s free', 'light', 'start-now')}${btn('Download on iOS', '', '', 'style="border:1px solid rgba(255,255,255,.3);color:#fff"')}</div></section>
     <footer class="l-foot bc"><div class="links">${['privacy-policy', 'terms-of-use', 'use-cases', 'blog', 'glossary', 'compare', 'faq'].map(l => `<span>${l}</span>`).join('')}</div><span>© 2025 Uhired AI. All rights reserved.</span></footer>
   </div></div>${btn('Start now', 'primary float-cta', 'start-now', 'id="fcta"')}`;
 }
