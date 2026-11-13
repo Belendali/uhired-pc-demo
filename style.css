@@ -421,3 +421,5 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .whatsec .fcard{position:relative;border:none;box-shadow:0 12px 32px rgba(60,92,250,.10)}
 .whatsec .fcard .ico-tile{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#3c5cfa,#8296ff);color:#fff}
 .fnum2{position:absolute;top:16px;right:24px;font-family:Rowdies,cursive;font-size:44px;line-height:1;color:#d9e0ff}
+
+.hl{color:var(--primary);font-weight:600}
