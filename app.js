@@ -22,6 +22,7 @@ const ICONS = {
   lightbulb:'M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5a6 6 0 0 0-12 0c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5|M9 18h6|M10 22h4',
   history:'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8|M3 3v5h5|M12 7v5l4 2',
   pause:'M17 4h-2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z|M9 4H7a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z',
+  'volume-2':'M11 5L6 9H2v6h4l5 4V5z|M15.54 8.46a5 5 0 0 1 0 7.07|M19.07 4.93a10 10 0 0 1 0 14.14', 'volume-x':'M11 5L6 9H2v6h4l5 4V5z|M23 9l-6 6|M17 9l6 6',
   'trending-up':'M16 7h6v6|M22 7l-8.5 8.5-5-5L2 17',
   target:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z|M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z|M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
   'panel-left':'M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z|M9 3v18',
@@ -553,6 +554,7 @@ const FAQ = [
   ['Where can I download Uhired AI?', 'Uhired AI is available on the iOS App Store at <a class="pri" href="https://apps.apple.com/us/app/uhired-ai/id6747252681" target="_blank" rel="noopener">https://apps.apple.com/us/app/uhired-ai/id6747252681</a>.'],
 ];
 
+const soundBtn = on => `${ic(on ? 'volume-2' : 'volume-x', 18)}<span>${on ? 'Sound on' : 'Sound off'}</span>`;
 function landing() {
   const roles = ['Customer Service', 'Remote Work', 'Healthcare', 'Tech', 'BPO', 'Call Center', 'Virtual Assistant', 'Nursing', 'Data Analyst', 'IT'];
   const tick = roles.concat(roles).map(r => `<span class="it h4">${r}<i></i></span>`).join('');
@@ -565,7 +567,7 @@ function landing() {
       <div class="upcard" data-act="upload"><div class="dz"><div class="ib">${ic('upload', 22)}</div><div class="col grow" style="gap:2px"><span class="h3l">Drop your resume here</span><span class="bs muted">PDF or DOCX · free · stays private to you</span></div>${btn('Start now', 'primary', 'upload')}</div></div>
       <div class="flowline">${steps.map((t, i) => `${i ? `<span class="fl-ch">${ic('chevron-right', 16)}</span>` : ''}<div class="fl-s"><i class="fnum lbg">${i + 1}</i><span class="lc">${t}</span>${i === 3 ? `<span class="pri">${ic('phone', 14)}</span>` : ''}</div>`).join('')}</div>
       <p class="bc muted explore">Exploring opportunities?  <b class="click" data-act="go-jobs">Browse open jobs</b> · <b class="click" data-act="upload">Quick resume match</b></p>
-      <div class="video-card"><video src="img/hero.mp4" poster="img/hero.jpg" autoplay muted loop playsinline></video><span class="vc-cap lc">Illustrative scenario: BPO interview practice</span><span class="vc-live lt"><i class="pulse"></i>Live AI</span></div></section>
+      <div class="video-card"><video src="img/hero.mp4" poster="img/hero.jpg" autoplay muted loop playsinline></video><button class="vc-sound lbg" data-act="sound">${soundBtn(false)}</button></div></section>
     <div class="ticker"><div class="track">${tick}</div></div>
     <section class="lsec whatsec"><div class="col" style="gap:16px;width:672px"><span class="le pri">What it does</span><span class="h2">It learns from your resume — and answers as if it were you.</span></div>
       <div class="fgrid">${[['briefcase', 'Match jobs', 'Upload your resume. See open jobs that fit you, ranked by match.'], ['chat', 'Answers in your voice', 'Get the questions you’ll likely be asked, with answers that sound like you.'], ['mic', 'Practice with AI', 'Do a mock interview out loud. Get your score and tips at the end.'], ['phone', 'Live AI help', 'In the real interview, our phone app runs in the background and shows you hints.']].map((f, i) => `<div class="fcard"><span class="fnum2">0${i + 1}</span><div class="ico-tile li">${ic(f[0], 20)}</div><div class="h3">${f[1]}</div><p class="bd body" style="margin-top:8px">${f[2]}</p></div>`).join('')}</div></section>
@@ -609,17 +611,16 @@ function landing() {
 const CMP = [
   ['Final Round', '$149', 0, 1, 0], ['LockedIn AI', '$54.99', 0, 1, 0], ['Cluely', 'Free + paid', 0, 1, 0], ['Sensei AI', 'Free + paid', 0, 1, 0],
   ['Interview Coder', 'Free + paid', 0, 'Coding overlay', 0], ['OphyAI', '$29', 0, 1, 0], ['Hedy AI', '$12.99', 0, 'Limited', 1],
-  ['Beyz AI', 'Free + paid', 0, 'Limited', 1], ['Huru AI', 'Free + paid', 0, 0, 1], ['Yoodli', 'Free + paid', 0, 0, 1],
 ];
 const cmark = v => v === 1 ? `<span class="ck">${ic('check', 12)}</span>` : v === 0 ? '<span class="dash">—</span>' : `<span class="bs body">${v}</span>`;
 function comparePage() {
   const rows = ['Price / month', 'Resume-based Q&amp;A', 'Live help in the real interview', 'Mobile app'];
   const col = (c, i) => `<div class="ccol"><div class="ch"><span class="ctile lbg">${c[0][0]}</span><span class="lc">${c[0]}</span></div>${[1, 2, 3, 4].map(k => `<div class="cc">${k === 1 ? `<span class="h4">${c[1]}</span>` : cmark(c[k])}</div>`).join('')}</div>`;
-  return sitePage(`<section class="pagesec">${pageHead('Compare', 'Uhired AI vs Competitors: 10 AI Interview Tools Compared', 'Side-by-side comparisons of Uhired AI against the top AI interview assistants. Compare pricing, platform, features, and free tiers.')}
+  return sitePage(`<section class="pagesec">${pageHead('Compare', 'Uhired AI vs Competitors', 'Side-by-side comparisons of Uhired AI against the top AI interview assistants. Compare pricing, platform, features, and free tiers.')}
     <div class="ctable"><div class="ccol lab"><div class="ch"><span class="lc muted">Feature</span></div>${rows.map(r => `<div class="cc"><span class="h4">${r}</span></div>`).join('')}</div>
-      <div class="ccol us"><span class="ctag lt">Most affordable</span><div class="ch"><img src="img/logo.png" alt="" style="width:32px;height:32px;border-radius:8px"><span class="lb pri">Uhired AI</span></div><div class="cc"><span class="h4 pri">$9.99</span></div>${[1, 1, 1].map(() => `<div class="cc"><span class="ck on">${ic('check', 12)}</span></div>`).join('')}</div>
+      <div class="ccol us"><div class="ch"><span class="ctag lt">Most affordable</span><img src="img/logo.png" alt="" style="width:32px;height:32px;border-radius:8px"><span class="lb pri">Uhired AI</span></div><div class="cc"><span class="h4 pri">$9.99</span></div>${[1, 1, 1].map(() => `<div class="cc"><span class="ck on">${ic('check', 12)}</span></div>`).join('')}</div>
       ${CMP.map(col).join('')}</div>
-    <p class="bs muted" style="margin-top:16px">Prices and features may change. Check each tool’s site for the latest.</p>
+    <p class="bs muted" style="margin-top:16px;text-align:center">Prices and features may change. Check each tool’s site for the latest.</p>
     ${ctaBand()}</section>`);
 }
 
@@ -781,6 +782,7 @@ const ACTIONS = {
   'back-after': () => go({ view: 'chat', stage: 'after', panel: null }),
   results: () => go({ view: 'results' }),
   'history-from-results': () => go({ view: 'chat', stage: 'after', panel: 'history', seenHistory: true }),
+  sound: () => { const v = document.querySelector('.video-card video'), b = document.querySelector('.vc-sound'); if (!v) return; v.muted = !v.muted; if (!v.muted) v.play(); b.innerHTML = soundBtn(!v.muted); b.classList.toggle('on', !v.muted); },
   menu: () => { menuOpen = !menuOpen; render(); },
 };
 app.addEventListener('click', e => {
