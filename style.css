@@ -366,7 +366,7 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .jtag{padding:4px 10px;border-radius:999px;background:var(--bg-page);color:var(--text-body)}
 .jdiv{height:1px;background:var(--border)}
 .mlock{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary)}
-.samplesec{padding:96px 80px;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;gap:40px}
+.samplesec{padding:72px 80px;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;gap:32px}
 .stabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:#fff;border:1px solid var(--border)}
 .stabs span{padding:8px 18px;border-radius:999px;color:var(--text-body)}
 .stabs span.on{background:var(--ink);color:#fff}
@@ -404,3 +404,14 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .botbtns span{flex:1;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;color:#fff;font:600 15px Poppins}
 .botbtns .b1{background:#8ea0f6}.botbtns .b2{background:#4a67f5}
 .bottx{background:#fff;padding:14px 16px 40px;color:#24318c;font:400 11px/16px Poppins;height:190px}
+
+/* showcase v2 — 2 panels in one row */
+.showcase .spanel{gap:16px;padding:24px}
+.phead{display:flex;align-items:center;gap:8px}
+.phead .plat{margin-bottom:0;align-self:center}
+.showcase .shot{margin-top:0;flex:1;align-items:center;padding:20px 16px}
+.shot-a .indent{zoom:.68}
+.shot-b{gap:16px}
+.shot-b .shot-mock{zoom:.415;flex:none}
+.shot-b .shot-mock .mcol{zoom:1}
+.shot-b .iphone{zoom:.445}
