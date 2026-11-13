@@ -538,7 +538,7 @@ function landing() {
   const tick = roles.concat(roles).map(r => `<span class="it h4">${r}<i></i></span>`).join('');
   return `<div class="landing-wrap" id="lw"><div class="landing" id="land">
     <header class="l-header"><div class="row" style="gap:8px"><div class="mark">U</div><span class="logo">Uhired AI</span></div>
-      <nav class="l-nav ln">${['Jobs', 'Use cases', 'Blog', 'Glossary', 'Compare', 'FAQ', 'How it works'].map(n => `<span>${n}</span>`).join('')}</nav><div class="row" style="gap:8px">${btn('Download app', 'sec sm')}${btn('Start now', 'primary sm', 'start-now')}</div></header>
+      <nav class="l-nav ln"><span>Jobs</span><span data-act="scroll-how">How it works</span></nav><div class="row" style="gap:8px">${btn('Download app', 'sec sm')}${btn('Start now', 'primary sm', 'start-now')}</div></header>
     <section class="hero"><div class="glow" style="width:384px;height:384px;left:1190px;top:-122px;background:var(--primary-soft)"></div><div class="glow" style="width:288px;height:288px;left:-80px;top:159px;background:rgba(60,92,250,.1)"></div>
       <span class="badge-pill lbg pri"><i class="dot8"></i>New · Resume → interview prep + matched jobs, in one chat</span>
       <h1 class="h1">Upload your resume.<br><em>Walk in already ready.</em></h1>
@@ -580,7 +580,7 @@ function landing() {
     <section class="stats">${[['6+', 'Role categories supported'], ['4', 'Core AI features'], ['100%', 'Personalized to your resume']].map(s => `<div><span class="dstat pri">${s[0]}</span><span class="bc body">${s[1]}</span></div>`).join('')}</section>
     <section class="lsec whatsec"><div class="col" style="gap:16px;width:672px"><span class="le pri">What it does</span><span class="h2">From your resume to the real interview, in four steps.</span></div>
       <div class="fgrid">${[['briefcase', 'Match jobs', 'Upload your resume. See open jobs that fit you, ranked by match.'], ['chat', 'Answers in your voice', 'Get the questions you’ll likely be asked, with answers that sound like you.'], ['mic', 'Practice with AI', 'Do a mock interview out loud. Get your score and tips at the end.'], ['phone', 'Live AI help', 'In the real interview, our phone app runs in the background and shows you hints.']].map((f, i) => `<div class="fcard"><span class="fnum2">0${i + 1}</span><div class="ico-tile li">${ic(f[0], 20)}</div><div class="h3">${f[1]}</div><p class="bd body" style="margin-top:8px">${f[2]}</p></div>`).join('')}</div></section>
-    <section class="lsec dark-sec"><div class="glow" style="width:288px;height:288px;left:-75px;top:55px;background:rgba(60,92,250,.15)"></div>
+    <section class="lsec dark-sec" id="how"><div class="glow" style="width:288px;height:288px;left:-75px;top:55px;background:rgba(60,92,250,.15)"></div>
       <div class="col" style="gap:16px;position:relative"><span class="le" style="color:var(--primary-light)">How it works</span><span class="h2 white">Your flow at a glance</span></div>
       <div class="steps">${[['Upload', 'Share your resume and the job description.'], ['Analyze', 'AI pairs your experience with the role to predict questions.'], ['Refine', 'Tweak every answer until it sounds like you.'], ['Practice', 'Rehearse with mock interviews and live prompts.'], ['Interview', 'Live assist during the real call.'], ['Recap', 'Review feedback and improve for next time.']].map((s, i) => `<div class="stepc"><div class="stepn" style="color:rgba(255,255,255,.2)">0${i + 1}</div><div class="h4 white" style="margin-top:8px">${s[0]}</div><p class="bs" style="color:var(--on-dark-muted);margin-top:4px">${s[1]}</p></div>`).join('')}</div></section>
     <section class="lsec"><div class="col" style="gap:16px;width:672px"><span class="le pri">Who it's for</span><span class="h2">Three people. Three kinds of interviews.</span></div>
@@ -589,7 +589,7 @@ function landing() {
       <span class="dcta white" style="width:760px;position:relative">Invisible. But always thinking with you.</span>
       <p class="blt" style="color:var(--on-dark-muted);width:576px;padding-top:20px;position:relative">Confidence comes from rock-solid prep and a quiet safety net. Uhired gives you both.</p>
       <div class="row" style="gap:12px;padding-top:32px;position:relative">${btn('Start now — it’s free', 'light', 'start-now')}${btn('Download on iOS', '', '', 'style="border:1px solid rgba(255,255,255,.3);color:#fff"')}</div></section>
-    <footer class="l-foot bc"><div class="links">${['privacy-policy', 'terms-of-use', 'use-cases', 'blog', 'glossary', 'compare', 'faq'].map(l => `<span>${l}</span>`).join('')}</div><span>© 2025 Uhired AI. All rights reserved.</span></footer>
+    <footer class="l-foot bc"><div class="links">${['privacy-policy', 'terms-of-use', 'use-cases', 'blog', 'glossary', 'compare', 'faq', 'our-team', 'contact-us'].map(l => `<span>${l}</span>`).join('')}</div><span>© 2025 Uhired AI. All rights reserved.</span></footer>
   </div></div>${btn('Start now', 'primary float-cta', 'start-now', 'id="fcta"')}`;
 }
 
@@ -667,6 +667,7 @@ addEventListener('resize', fit);
 
 const ACTIONS = {
   'start-now': () => go({ view: 'chat', stage: 'welcome' }),
+  'scroll-how': () => document.getElementById('how')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
   upload: () => { S.view = 'chat'; S.stage = 'reading'; runReading(); },
   collapse: () => go({ collapsed: true }), expand: () => go({ collapsed: false }),
   newbot: () => go({ modal: 'newbot' }), 'close-modal': () => go({ modal: null }),
