@@ -500,3 +500,108 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .ccol.us .ch{gap:4px}
 .ctag{position:static;padding:2px 8px;border-radius:999px;font-size:9px;line-height:14px}
 .tcard{min-height:152px}
+
+/* ---- motion (site pages) ---- */
+@keyframes pagein{from{opacity:0}}
+#land.pagein{animation:pagein .5s ease both}
+@keyframes enter{from{opacity:0;translate:0 28px;filter:blur(6px)}}
+.enter{animation:enter .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
+.rv{opacity:0;translate:0 36px;transition:opacity .8s cubic-bezier(.2,.7,.2,1),translate .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+.rv.in{opacity:1;translate:0 0}
+/* hover: tilt follows the cursor (JS sets transform), lift + soft glare */
+[data-tilt]{position:relative;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s,background .35s,opacity .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms),translate .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms);will-change:transform}
+[data-tilt].tilting{transition:transform .12s ease-out,box-shadow .35s,border-color .35s,background .35s,opacity .8s,translate .8s;z-index:2}
+[data-tilt]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.22),transparent 45%)}
+[data-tilt].tilting::after{opacity:1}
+.fcard.tilting,.whatsec .fcard.tilting{box-shadow:0 28px 56px rgba(60,92,250,.20)}
+.spanel.tilting,.rcard.tilting,.gcard.tilting,.tcard.tilting,.tip.tilting,.jrow.tilting{box-shadow:0 24px 56px rgba(60,92,250,.16);border-color:var(--primary-light)}
+.stepc.tilting{border-color:rgba(148,166,255,.5);background:rgba(255,255,255,.07)}
+.stepc[data-tilt]::after{background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(148,166,255,.18),transparent 50%)}
+.stepc .stepn{transition:color .35s}
+.stepc.tilting .stepn{color:var(--primary-light)!important}
+.fcard .ico-tile{transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.fcard.tilting .ico-tile{transform:scale(1.12) rotate(-6deg)}
+.showcase .shot>*{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.spanel.tilting .shot>*{transform:scale(1.035)}
+/* Who it's for — smaller cards in a 1280 column, photo zooms on hover */
+.whosec .inner{max-width:1280px;margin:0 auto}
+.whosec .rcards{margin-top:48px}
+.rcard{padding:0 0 24px}
+.rcard .ph{overflow:hidden;height:200px}
+.rcard .ph img{height:100%;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.rcard.tilting .ph img{transform:scale(1.07)}
+.rcard .c{padding:20px 22px 0}
+/* See it in action — wider side margins */
+.samplesec{padding:96px 160px}
+.showcase{max-width:1200px}
+/* buttons, nav, upload, video, ticker */
+.btn{transition:filter .15s,background .15s,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(60,92,250,.32)}
+.btn.light:hover,.btn.sec:hover,.btn.dark:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.l-nav span{position:relative;transition:color .2s}
+.l-nav span::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:1px;background:var(--primary);transform:scaleX(0);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.l-nav span:hover::after,.l-nav span.on::after{transform:scaleX(1)}
+.upcard{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.upcard:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 24px 56px rgba(69,89,242,.24)}
+.upcard .dz .ib{transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.upcard:hover .dz .ib{transform:translateY(-3px) scale(1.08)}
+.video-card{transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s}
+.video-card:hover{transform:scale(1.012);box-shadow:0 40px 100px rgba(60,92,250,.26)}
+.ticker:hover .track{animation-play-state:paused}
+.ticker .it{transition:color .2s} .ticker .it:hover{color:var(--primary)}
+@keyframes drift{0%,100%{translate:0 0}50%{translate:40px -30px}}
+.hero .glow,.closing .glow{animation:drift 12s ease-in-out infinite}
+.hero .glow+.glow,.closing .glow+.glow{animation-duration:15s;animation-direction:reverse}
+.fl-s .fnum{transition:transform .3s,background .3s,color .3s}
+.fl-s:hover .fnum{transform:scale(1.15);background:var(--primary);color:#fff}
+/* FAQ opens smoothly */
+.faq-it .a{display:block!important;max-height:0;overflow:hidden;padding-top:0;opacity:0;transition:max-height .45s cubic-bezier(.2,.7,.2,1),opacity .3s,padding-top .45s}
+.faq-it.open .a{max-height:240px;padding-top:10px;opacity:1}
+.faq-it .q .h3{transition:color .2s} .faq-it:hover .q .h3{color:var(--primary)}
+@media (prefers-reduced-motion:reduce){.rv,.enter{opacity:1!important;translate:none!important;animation:none!important}*{transition-duration:.01ms!important}}
+
+/* ---- Jobs: search bar + filters stay put, only the list scrolls ---- */
+.jhero{padding:72px 80px 32px}
+#jsent{display:block;height:0}
+.jsticky{position:sticky;top:64px;z-index:4;padding:0 80px;transition:background .3s,box-shadow .3s,padding .3s}
+.jsticky.stuck{background:rgba(255,255,255,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 1px 0 var(--border-60),0 10px 24px rgba(60,92,250,.06);padding:10px 80px}
+.jsticky .jsearch{margin-top:0;transition:padding .3s,border-radius .3s,box-shadow .3s,gap .3s}
+.jsticky .jsearch .lc{transition:font-size .3s,opacity .3s,max-height .3s;max-height:20px;overflow:hidden}
+.jsticky .jsearch .btn{transition:height .3s,padding .3s}
+.jsticky.stuck .jsearch{padding:4px 4px 4px 20px;border-radius:16px;box-shadow:none;gap:12px}
+.jsticky.stuck .jsearch .lc{max-height:0;opacity:0}
+.jsticky.stuck .jsearch .btn{height:40px;padding:0 22px}
+.jsticky.stuck .vsep{height:24px}
+.jpop{padding:16px 80px 0}
+.jfilter{position:sticky;top:152px;max-height:calc(100vh - 176px);overflow:auto}
+.jrow{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s,opacity .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms),translate .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
+.jrow:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(60,92,250,.12);border-color:var(--primary-light)}
+.mbanner{background-size:200% 100%;background-image:linear-gradient(100deg,#3c5cfa,#7d93ff,#3c5cfa);animation:bgpan 8s ease-in-out infinite}
+@keyframes bgpan{50%{background-position:100% 0}}
+.locchip{cursor:pointer;transition:border-color .2s,color .2s,transform .2s} .locchip:hover{border-color:var(--primary-light);color:var(--primary);transform:translateY(-1px)}
+
+/* ---- Compare: Uhired column reads as the recommended pick ---- */
+.ccol.us{margin:-16px 0;border-radius:20px;z-index:1;background:linear-gradient(180deg,#f3f5ff,#e4e9ff);animation:usglow 3s ease-in-out infinite;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.ccol.us .ch{height:112px;padding-top:16px;border-bottom-color:rgba(60,92,250,.15)}
+.ccol.us .cc{border-bottom-color:rgba(60,92,250,.15)}
+.ccol.us .cc:last-child{height:80px;padding-bottom:16px}
+.ccol.us:hover{transform:translateY(-4px)}
+@keyframes usglow{0%,100%{box-shadow:0 0 0 2px var(--primary),0 16px 36px rgba(60,92,250,.22)}50%{box-shadow:0 0 0 2px var(--primary),0 22px 52px rgba(60,92,250,.42)}}
+.ctag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;color:#fff;background:linear-gradient(110deg,#3c5cfa 20%,#9aabff 40%,#3c5cfa 60%);background-size:250% 100%;animation:shine 2.6s linear infinite,bob 3s ease-in-out infinite;box-shadow:0 4px 12px rgba(60,92,250,.35)}
+.ctag svg{animation:twinkle 1.6s ease-in-out infinite}
+@keyframes shine{from{background-position:150% 0}to{background-position:-100% 0}}
+@keyframes bob{50%{translate:0 -3px}}
+@keyframes twinkle{50%{transform:scale(1.35) rotate(20deg);opacity:.7}}
+.ccol.us .h4.pri{font-size:20px;transition:transform .3s}
+.ccol.us:hover .h4.pri{transform:scale(1.08)}
+.ccol.us .ck{background:var(--primary);color:#fff}
+@keyframes ckpop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.ctable.in .ccol.us .ck{animation:ckpop .5s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(.5s + var(--i,0) * .15s)}
+.ccol:not(.lab):not(.us){transition:background .25s}
+.ccol:not(.lab):not(.us):hover{background:#fafbff}
+.whosec .inner{max-width:1120px}
+.whosec .inner>.col{margin:0 auto;align-items:center;text-align:center}
+.whosec .rcards{gap:20px}
+.rcard .ph{height:184px}
+.whosec .inner>.col{width:auto!important}

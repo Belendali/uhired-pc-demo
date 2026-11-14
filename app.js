@@ -596,8 +596,8 @@ function landing() {
     <section class="lsec dark-sec" id="how"><div class="glow" style="width:288px;height:288px;left:-75px;top:55px;background:rgba(60,92,250,.15)"></div>
       <div class="col" style="gap:16px;position:relative"><span class="le" style="color:var(--primary-light)">How it works</span><span class="h2 white">Your flow at a glance</span></div>
       <div class="steps">${[['Upload', 'Share your resume and the job description.'], ['Analyze', 'AI pairs your experience with the role to predict questions.'], ['Refine', 'Tweak every answer until it sounds like you.'], ['Practice', 'Rehearse with mock interviews and live prompts.'], ['Interview', 'Live assist during the real call.'], ['Recap', 'Review feedback and improve for next time.']].map((s, i) => `<div class="stepc"><div class="stepn" style="color:rgba(255,255,255,.2)">0${i + 1}</div><div class="h4 white" style="margin-top:8px">${s[0]}</div><p class="bs" style="color:var(--on-dark-muted);margin-top:4px">${s[1]}</p></div>`).join('')}</div></section>
-    <section class="lsec"><div class="col" style="gap:16px;width:672px"><span class="le pri">Who it's for</span><span class="h2">Three people. Three kinds of interviews.</span></div>
-      <div class="rcards">${[['role-maya', 'Maya · New grad', '“I’d never done a real interview. Uhired helped me <b class="hl">understand how the interview works</b>, step by step, and prep <b class="hl">a clear story for every behavioral question</b>.”'], ['role-leo', 'Leo · Product manager', '“Follow-up questions on business cases always got me. Uhired ran <b class="hl">mock interviews built from my resume and the PM role</b>, and helped me <b class="hl">dig deeper into my past projects</b>.”'], ['role-ana', 'Ana · Sales rep', '“I didn’t even know which jobs to apply for. Uhired <b class="hl">matched me to sales roles</b>, helped me <b class="hl">practice my pitch</b>, and gave me <b class="hl">live hints in the real interview</b>.”']].map(r => `<div class="rcard"><img src="img/${r[0]}.jpg" alt=""><div class="c"><span class="h3l">${r[1]}</span><span class="bd body">${r[2]}</span></div></div>`).join('')}</div></section>
+    <section class="lsec whosec"><div class="inner"><div class="col" style="gap:16px;width:672px"><span class="le pri">Who it's for</span><span class="h2">Three people. Three kinds of interviews.</span></div>
+      <div class="rcards">${[['role-maya', 'Maya · New grad', '“I’d never done a real interview. Uhired helped me <b class="hl">understand how the interview works</b>, step by step, and prep <b class="hl">a clear story for every behavioral question</b>.”'], ['role-leo', 'Leo · Product manager', '“Follow-up questions on business cases always got me. Uhired ran <b class="hl">mock interviews built from my resume and the PM role</b>, and helped me <b class="hl">dig deeper into my past projects</b>.”'], ['role-ana', 'Ana · Sales rep', '“I didn’t even know which jobs to apply for. Uhired <b class="hl">matched me to sales roles</b>, helped me <b class="hl">practice my pitch</b>, and gave me <b class="hl">live hints in the real interview</b>.”']].map(r => `<div class="rcard"><div class="ph"><img src="img/${r[0]}.jpg" alt=""></div><div class="c"><span class="h3l">${r[1]}</span><span class="bd body">${r[2]}</span></div></div>`).join('')}</div></div></section>
     <section class="closing dark-sec"><div class="glow" style="width:256px;height:256px;left:1250px;top:-10px;background:rgba(60,92,250,.25)"></div><div class="glow" style="width:265px;height:265px;left:-60px;top:164px;background:rgba(148,166,255,.15)"></div>
       <span class="dcta white" style="position:relative">Invisible. But always thinking with you.</span>
       <p class="blt" style="color:var(--on-dark-muted);width:576px;padding-top:20px;position:relative">Confidence comes from rock-solid prep and a quiet safety net. Uhired gives you both.</p>
@@ -618,7 +618,7 @@ function comparePage() {
   const col = (c, i) => `<div class="ccol"><div class="ch"><span class="ctile lbg">${c[0][0]}</span><span class="lc">${c[0]}</span></div>${[1, 2, 3, 4].map(k => `<div class="cc">${k === 1 ? `<span class="h4">${c[1]}</span>` : cmark(c[k])}</div>`).join('')}</div>`;
   return sitePage(`<section class="pagesec">${pageHead('Compare', 'Uhired AI vs Competitors', 'Side-by-side comparisons of Uhired AI against the top AI interview assistants. Compare pricing, platform, features, and free tiers.')}
     <div class="ctable"><div class="ccol lab"><div class="ch"><span class="lc muted">Feature</span></div>${rows.map(r => `<div class="cc"><span class="h4">${r}</span></div>`).join('')}</div>
-      <div class="ccol us"><div class="ch"><span class="ctag lt">Most affordable</span><img src="img/logo.png" alt="" style="width:32px;height:32px;border-radius:8px"><span class="lb pri">Uhired AI</span></div><div class="cc"><span class="h4 pri">$9.99</span></div>${[1, 1, 1].map(() => `<div class="cc"><span class="ck on">${ic('check', 12)}</span></div>`).join('')}</div>
+      <div class="ccol us"><div class="ch"><span class="ctag lt">${ic('sparkles', 10)}Most affordable</span><img src="img/logo.png" alt="" style="width:32px;height:32px;border-radius:8px"><span class="lb pri">Uhired AI</span></div><div class="cc"><span class="h4 pri">$9.99</span></div>${[1, 1, 1].map((_, i) => `<div class="cc"><span class="ck on" style="--i:${i}">${ic('check', 12)}</span></div>`).join('')}</div>
       ${CMP.map(col).join('')}</div>
     <p class="bs muted" style="margin-top:16px;text-align:center">Prices and features may change. Check each tool’s site for the latest.</p>
     ${ctaBand()}</section>`);
@@ -650,9 +650,9 @@ const JOBS = [['J', 'var(--success)', 'Finance Officer', 'Jobberman', 'Greater A
   ['J', 'var(--success)', 'Graphics/Brand Designer', 'Jobberman', 'Oyo, Oyo, Nigeria', 'Role Summary: Responsible for developing and maintaining ODL’s visual identity through the creation of professional, engaging, and consistent visual materials…', 'Non-profit and NGO sector']];
 function jobsPage() {
   const plats = [['smartrecruiters', '92,512'], ['greenhouse', '32,714'], ['lever', '10,474'], ['ashby', '10,351'], ['careerplug', '10,329'], ['oracle', '9,925'], ['workday', '7,447']];
-  return sitePage(`<section class="jhero">${pageHead('Jobs', 'Find your next role. Know how to prepare.', 'Explore current openings from company career pages. Search directly, or let your resume show you where to start.', false)}
-    <div class="jsearch"><span class="muted">${ic('briefcase', 18)}</span><div class="col grow"><span class="lc">Job title or company</span><input class="bc" placeholder="e.g. Product Designer"></div><i class="vsep"></i><div class="col grow"><span class="lc">Location</span><input class="bc" placeholder="City, country, or remote"></div>${btn('Find jobs', 'primary')}</div>
-    <div class="row" style="gap:8px;margin-top:16px"><span class="bs muted">Popular locations:</span>${['Hawthorne, CA', 'Paris, IDF, FR', 'Bengaluru, KA, IN', 'Remote', 'Singapore'].map(l => `<span class="locchip lc">${l}</span>`).join('')}</div></section>
+  return sitePage(`<section class="jhero">${pageHead('Jobs', 'Find your next role. Know how to prepare.', 'Explore current openings from company career pages. Search directly, or let your resume show you where to start.', false)}</section>
+    <i id="jsent"></i><div class="jsticky" id="jsticky"><div class="jsearch"><span class="muted">${ic('briefcase', 18)}</span><div class="col grow"><span class="lc">Job title or company</span><input class="bc" placeholder="e.g. Product Designer"></div><i class="vsep"></i><div class="col grow"><span class="lc">Location</span><input class="bc" placeholder="City, country, or remote"></div>${btn('Find jobs', 'primary')}</div></div>
+    <div class="row jpop" style="gap:8px"><span class="bs muted">Popular locations:</span>${['Hawthorne, CA', 'Paris, IDF, FR', 'Bengaluru, KA, IN', 'Remote', 'Singapore'].map(l => `<span class="locchip lc">${l}</span>`).join('')}</div>
     <section class="jbody"><aside class="jfilter"><div class="row"><span class="h3l grow">More filters</span><span class="bs muted">(optional)</span></div>
         <div class="col" style="gap:8px"><span class="h4">Department</span><label class="finp"><input class="bc" placeholder="e.g. Engineering"></label></div>
         <div class="col" style="gap:14px"><span class="h4">Hiring platform</span><label class="jradio on"><i></i><span class="bc grow">All platforms</span></label>${plats.map(p => `<label class="jradio"><i></i><span class="bc grow">${p[0]}</span><span class="bs muted">${p[1]}</span></label>`).join('')}</div>
@@ -730,10 +730,54 @@ function render() {
   }
   const lw = document.getElementById('lw'); const sc = lw ? lw.scrollTop : 0;
   app.innerHTML = html + demoMenu();
-  if (site) { const n = document.getElementById('lw'); if (n) n.scrollTop = sc; }
+  if (site) { const n = document.getElementById('lw'); if (n) n.scrollTop = sc; enhance(S.view !== lastSite); lastSite = S.view; } else lastSite = null;
   if (S.view === 'chat' && (S.stage === 'unfinished' || S.stage === 'after')) { const sb = () => { const c = document.querySelector('.conv'); if (c) c.scrollTop = c.scrollHeight; }; sb(); requestAnimationFrame(sb); setTimeout(sb, 120); if (document.fonts) document.fonts.ready.then(sb); } // newest message in view, like 04c / H01
   fit();
 }
+/* ---- site motion: scroll reveal (fade in / fade out), hover tilt + glare, page fade ---- */
+let lastSite = null, revealIO = null;
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const REVEAL = ['.lsec > .col', '.lsec > .inner > .col', '.samplesec > .col', '.fcard', '.spanel', '.samplesec > .row', '.stepc', '.rcard', '.closing > .dcta', '.closing > p', '.closing > .row',
+  '.faq-l', '.faq-it', '.phero > *', '.pagesec > *', '.gcard', '.tcard', '.tip', '.az', '.ctable', '.ctaband', '.mbanner', '.jrow', '.pager', '.lblock > *'];
+const TILT = '.fcard, .spanel, .rcard, .stepc, .gcard, .tcard, .tip';
+function enhance(newPage) {
+  const land = document.getElementById('land'); if (!land) return; stickyJobs(); if (REDUCED) return;
+  if (newPage) land.classList.add('pagein');
+  // hero plays its own entrance once per page view
+  if (newPage) land.querySelectorAll('.hero > :not(.glow), .jhero > *').forEach((el, i) => { el.classList.add('enter'); el.style.setProperty('--d', `${i * 90}ms`); });
+  revealIO?.disconnect();
+  revealIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('in', e.isIntersecting)), { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+  const seen = new Set();
+  REVEAL.forEach(sel => land.querySelectorAll(sel).forEach(el => {
+    if (seen.has(el) || el.closest('.hero')) return; seen.add(el);
+    const sibs = [...el.parentElement.children].filter(c => c.matches(sel));
+    el.classList.add('rv'); el.style.setProperty('--d', `${Math.min(sibs.indexOf(el), 6) * 80}ms`);
+    revealIO.observe(el);
+  }));
+  land.querySelectorAll(TILT).forEach(el => el.setAttribute('data-tilt', ''));
+}
+// Jobs: search bar sticks under the header and compacts once it reaches it
+function stickyJobs() {
+  const lw = document.getElementById('lw'), st = document.getElementById('jsticky'), sen = document.getElementById('jsent'), hd = document.querySelector('.l-header');
+  if (!lw || !st || !sen || !hd) return;
+  const on = () => st.classList.toggle('stuck', sen.getBoundingClientRect().top <= hd.getBoundingClientRect().bottom + 1);
+  lw.addEventListener('scroll', on, { passive: true }); on();
+}
+let tiltEl = null;
+function untilt() { if (tiltEl) { tiltEl.style.transform = ''; tiltEl.classList.remove('tilting'); tiltEl = null; } }
+app.addEventListener('mousemove', e => {
+  if (REDUCED) return;
+  const el = e.target.closest('[data-tilt]');
+  if (el !== tiltEl) untilt();
+  if (!el) return;
+  tiltEl = el; el.classList.add('tilting');
+  const b = el.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+  const max = b.width > 600 ? 2.5 : 5; // big panels tilt less
+  el.style.transform = `perspective(1000px) rotateX(${((0.5 - y) * max).toFixed(2)}deg) rotateY(${((x - 0.5) * max).toFixed(2)}deg) translateY(-6px) scale(1.02)`;
+  el.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`); el.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+});
+app.addEventListener('mouseleave', untilt);
+
 function fit() {
   const st = document.getElementById('stage');
   if (st) { const s = Math.min(innerWidth / 1440, innerHeight / 900); st.style.transform = `translate(-50%,-50%) scale(${s})`; st.style.transformOrigin = '50% 50%'; st.style.left = '50%'; st.style.top = '50%'; }
