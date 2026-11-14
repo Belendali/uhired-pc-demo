@@ -605,3 +605,13 @@ svg.i{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:2;strok
 .whosec .rcards{gap:20px}
 .rcard .ph{height:184px}
 .whosec .inner>.col{width:auto!important}
+.shot-a .indent{zoom:.58}
+@media (min-width:1700px){.shot-a .indent{zoom:.64}}
+.showcase .spanel{flex:1 1 0;min-width:0}
+.shot-a .rcard2{flex:1 1 0;min-width:0}
+.showcase .phead{gap:6px}
+.showcase .phead .h3l{white-space:nowrap}
+.showcase .plat{padding:4px 10px;white-space:nowrap}
+.shot-b .shot-mock{zoom:.355}
+.shot-b .iphone{zoom:.385}
+@media (min-width:1700px){.shot-b .shot-mock{zoom:.415}.shot-b .iphone{zoom:.445}}
